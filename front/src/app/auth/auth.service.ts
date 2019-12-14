@@ -17,7 +17,6 @@ export class AuthService {
     return this.afAuth.auth
         .createUserWithEmailAndPassword(login.email, login.password)
         .then((res) => {
-            console.log(res);
             this.navController.navigateForward('/');
         })
         .catch(async error => {
