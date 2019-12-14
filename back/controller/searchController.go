@@ -1,18 +1,19 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 )
 
+//ResponseGetSearch サーチapiのレスポンス
 type ResponseGetSearch struct {
 	ID     string `json:"id"`
 	Latlng Latlng `json:"latlng"`
 }
 
+//GetSearch サーチapi
 func (ct *Controller) GetSearch(c *gin.Context) {
 	_, err := validateRequest(c, ct)
 	if err != nil {
@@ -20,13 +21,17 @@ func (ct *Controller) GetSearch(c *gin.Context) {
 		return
 	}
 
-	length := 0.001
+	length := 0.001 //探索距離
 	client := ct.Firestore.Client
 	ctx := ct.Firestore.Ctx
 	ress := []ResponseGetSearch{}
 	//request
 	req := Latlng{}
-	c.ShouldBindQuery(&req)
+	err = c.ShouldBindQuery(&req)
+	if err != nil {
+		c.String(http.StatusBadRequest, "BadRequest", nil)
+	}
+
 	//lat search
 	iter := client.Collection("message").Where("latlng.lat", "<", req.Lat+length).Where("latlng.lat", ">", req.Lat-length).Documents(ctx)
 	for {
@@ -36,13 +41,13 @@ func (ct *Controller) GetSearch(c *gin.Context) {
 			break
 		}
 		if err != nil {
-			panic(err)
+			c.String(http.StatusInternalServerError, "InternalServerError", nil)
 		}
 
 		message := Message{}
 		err = doc.DataTo(&message)
 		if err != nil {
-			panic(err)
+			c.String(http.StatusInternalServerError, "InternalServerError", nil)
 		}
 
 		if !(message.Latlng.Lng < req.Lng+length && message.Latlng.Lng > req.Lng-length) {
@@ -54,7 +59,6 @@ func (ct *Controller) GetSearch(c *gin.Context) {
 		res.Latlng.Lng = message.Latlng.Lng
 
 		ress = append(ress, res)
-		fmt.Println(message)
 	}
 
 	c.JSON(http.StatusOK, ress)

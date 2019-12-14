@@ -10,27 +10,32 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//Controller パッケージ共通の設定など
 type Controller struct {
 	Firestore Firestore
 	FireAuth  FireAuth
 	Config    config.Config
 }
 
+//Firestore firestore用のクライアント
 type Firestore struct {
 	Client *firestore.Client
 	Ctx    context.Context
 }
 
+//FireAuth auth用のクライアント
 type FireAuth struct {
 	Client *auth.Client
 	Ctx    context.Context
 }
 
+//User userコレクション
 type User struct {
 	Name  string `firestore:"name,omitempty"`
 	Token string `firestore:"token,omitempty"`
 }
 
+//Message メッセージコレクション
 type Message struct {
 	Address     string    `firestore:"address,omitempty"`
 	Body        string    `firestore:"body,omitempty"`
@@ -43,16 +48,19 @@ type Message struct {
 	Weather     string    `firestore:"weather,omitempty"`
 }
 
+//Latlng ジオポイント
 type Latlng struct {
 	Lat float64 `json:"lat" firestore:"lat,omitempty" form:"lat"`
 	Lng float64 `json:"lng" firestore:"lng,omitempty" form:"lng"`
 }
 
+//Series seriesコレクション
 type Series struct {
 	Name     string `firestore:"name,omitempty"`
 	UserUUID string `firestore:"user_uuid,omitempty"`
 }
 
+//GetController コントローラ初期化
 func GetController() *Controller {
 	return &Controller{}
 }

@@ -1,18 +1,19 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 )
 
+//ResponseGetSeries シリーズapiのレスポンス
 type ResponseGetSeries struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
+//GetSeries シリーズ取得api
 func (ct *Controller) GetSeries(c *gin.Context) {
 	ress := []ResponseGetSeries{}
 	userUUID, err := validateRequest(c, ct)
@@ -32,14 +33,15 @@ func (ct *Controller) GetSeries(c *gin.Context) {
 			break
 		}
 		if err != nil {
-			log.Fatalf("Failed to iterate: %v", err)
+			c.String(http.StatusInternalServerError, "InternalServerError", nil)
 		}
 
 		series := Series{}
 		err = doc.DataTo(&series)
 		if err != nil {
-			panic(err)
+			c.String(http.StatusInternalServerError, "InternalServerError", nil)
 		}
+
 		res.ID = doc.Ref.ID
 		res.Name = series.Name
 
