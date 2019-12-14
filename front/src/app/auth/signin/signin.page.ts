@@ -19,7 +19,7 @@ export class SigninPage implements OnInit {
 
   ngOnInit() {
   }
-  signIn(){
+  signIn() {
     this.loading = true;
     this.auth.authSignIn(this.login)
         .finally(() => this.loading = false);
