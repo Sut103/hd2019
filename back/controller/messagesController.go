@@ -1,14 +1,15 @@
 package controller
 
 import (
-	"net/http"
+	"context"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"google.golang.org/api/iterator"
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
-
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	fmt.Println(t, err)
 }
 
 type RequestGetMessages struct {
@@ -21,52 +22,18 @@ type ResponseGetMessages struct {
 }
 
 func (ct *Controller) GetMessages(c *gin.Context) {
-
-	//リクエストバインド
-	req := RequestGetMessages{}
-	ress := []ResponseGetMessages{}
-	c.ShouldBindQuery(&req)
-	if req.ID == "" {
-		c.String(http.StatusBadRequest, "bad request", nil)
-	}
-
-	//検索
-	client := ct.Firestore.Client
-	ctx := ct.Firestore.Ctx
-
-	iter := client.Collection("message").Where("series_uuid", "==", req.ID).Documents(ctx)
-	for {
-		res := ResponseGetMessages{}
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			panic(err)
-		}
-
-		message := Message{}
-		err = doc.DataTo(&message)
-		if err != nil {
-			panic(err)
-		}
-
-		res.ID = doc.Ref.ID
-		res.Latlng.Lat = message.Latlng.Lat
-		res.Latlng.Lng = message.Latlng.Lng
-
-		ress = append(ress, res)
-	}
-
-	//レスポンス
-	c.JSON(http.StatusOK, ress)
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	fmt.Println(t, err)
 }
 func (ct *Controller) PostMessages(c *gin.Context) {
-
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	fmt.Println(t, err)
 }
 func (ct *Controller) PutMessages(c *gin.Context) {
-
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	fmt.Println(t, err)
 }
 func (ct *Controller) DeleteMessages(c *gin.Context) {
-
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	fmt.Println(t, err)
 }
