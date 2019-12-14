@@ -12,7 +12,6 @@ export class MapPage implements OnInit {
   constructor(
       public auth: AngularFireAuth
   ) {
-    console.log(this.auth.auth.currentUser.getIdToken());
   }
 
   ngOnInit() {
