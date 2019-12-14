@@ -17,6 +17,10 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data : {authGuardPipe: redirectLoggedIn },
   },
+  {
+    path: 'profile',
+    loadChildren: () => import('./shared/profile/profile.module').then( m => m.ProfilePageModule)
+  },
 ];
 @NgModule({
   imports: [
