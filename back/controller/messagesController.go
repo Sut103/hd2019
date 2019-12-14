@@ -63,8 +63,6 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 	//レスポンス
 	c.JSON(http.StatusOK, ress)
 }
-
-}
 func (ct *Controller) PostMessages(c *gin.Context) {
 
 }
