@@ -14,6 +14,12 @@ type ResponseGetSearch struct {
 }
 
 func (ct *Controller) GetSearch(c *gin.Context) {
+	_, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
+	}
+
 	length := 0.001
 	client := ct.Firestore.Client
 	ctx := ct.Firestore.Ctx
