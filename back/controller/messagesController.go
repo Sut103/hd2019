@@ -48,7 +48,10 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 		fmt.Println(doc.Data())
 
 		message := Message{}
-		doc.DataTo(&message)
+		err = doc.DataTo(&message)
+		if err != nil {
+			panic(err)
+		}
 
 		res.ID = doc.Ref.ID
 		res.Latlng.Lat = message.Latlng.Lat
