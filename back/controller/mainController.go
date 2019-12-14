@@ -58,10 +58,11 @@ func GetController() *Controller {
 }
 
 func validateRequest(c *gin.Context, ct *Controller) (string, error) {
-	auth := c.Request.Header.Get("authorization")
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
-	if err != nil {
-		return "", err
-	}
-	return t.UID, nil
+	// auth := c.Request.Header.Get("authorization")
+	// t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// return t.UID, nil
+	return "", nil
 }
