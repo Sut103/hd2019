@@ -9,6 +9,11 @@ import (
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
+	_, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+	}
+
 	id := c.Param("id")
 
 	client := ct.Firestore.Client
@@ -35,6 +40,10 @@ type ResponseGetMessages struct {
 }
 
 func (ct *Controller) GetMessages(c *gin.Context) {
+	_, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+	}
 
 	//リクエストバインド
 	req := RequestGetMessages{}
