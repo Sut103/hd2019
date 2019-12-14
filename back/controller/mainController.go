@@ -42,7 +42,7 @@ type Message struct {
 
 type Latlng struct {
 	Lat float64 `json:"lat" firestore:"lat,omitempty"`
-	Lng float64 `json:"lng" firestore:"lng,omitempty`
+	Lng float64 `json:"lng" firestore:"lng,omitempty"`
 }
 
 type Series struct {
