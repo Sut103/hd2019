@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm" class="ion-padding" (submit)="signUp()">
+  <form #f="ngForm" class="ion-padding" (submit)="SignUp()">
     <ion-list class="ion-no-marge">
       <ion-item>
         <ion-label position="floating">メールアドレス</ion-label>
@@ -20,7 +20,7 @@
       </ion-item>
     </ion-list>
     <div class="ion-text-center ion-padding-top">
-      <ion-button type="submit" shape="round" [disabled]="!f.form.valid" routerLink="/">新規登録</ion-button>
+      <ion-button type="submit" shape="round" [disabled]="!f.form.valid">新規登録</ion-button>
     </div>
   </form>
 </ion-content>
