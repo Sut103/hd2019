@@ -18,7 +18,7 @@ export class SignupPage implements OnInit {
   ngOnInit() {
   }
 
-  SignUp(){
+  SignUp() {
     this.auth.authSignUp(this.login);
   }
 }
