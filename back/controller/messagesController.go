@@ -178,5 +178,9 @@ func getAddressHere(lat float64, lng float64, key string) (string, error) {
 	if err != nil {
 		return "", nil
 	}
-	return route[0].FormattedAddress, nil
+
+	if len(route) != 0 {
+		return route[0].FormattedAddress, nil
+	}
+	return "", nil
 }
