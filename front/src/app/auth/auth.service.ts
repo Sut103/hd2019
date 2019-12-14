@@ -30,7 +30,7 @@ authSignIn(login: {email: string, password: string}){
       });
   }
   authSignOut(){
-    return this.afAuth.signOut()
+    return this.afAuth.auth.signOut()
         .then(() => this.navController.navigateRoot('auth/signin'))
         .catch(error =>{
           throw error;
