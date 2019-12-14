@@ -21,6 +21,10 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./shared/profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'my-series-page',
+    loadChildren: () => import('./my-series-page/my-series-page.module').then( m => m.MySeriesPagePageModule)
+  },
 ];
 @NgModule({
   imports: [
