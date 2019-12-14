@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ToastController, Platform, LoadingController} from '@ionic/angular';
+import {ToastController, Platform, LoadingController, AlertController} from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
@@ -27,7 +27,8 @@ export class MapPage implements OnInit {
         public loadingCtrl: LoadingController,
         public toastCtrl: ToastController,
         public http: HttpClient,
-        public geolocation: Geolocation
+        public geolocation: Geolocation,
+        public alertController: AlertController,
     ) { }
 
     async ngOnInit() {
@@ -145,7 +146,7 @@ export class MapPage implements OnInit {
                     lng: 139.7725077
                 },
                 icon: {
-                    url: '/assets/icon/tokyo32.png',
+                    url: '/assets/icon/red_tokyo32.png',
                     size: {
                         width: 32,
                         height: 32
@@ -160,10 +161,48 @@ export class MapPage implements OnInit {
             this.loading.dismiss();
             this.showToast(err.error_message);
         });
+        this.loadMessage();
     }
 
-    onAddClick() {
-        this.loadMessage();
+    async onAddClick() {
+        const alert = await this.alertController.create({
+            header: 'シリーズ登録',
+            inputs: [
+                {
+                    name: 'title',
+                    type: 'text',
+                    placeholder: 'Title '
+                },
+                {
+                    name: 'series',
+                    type: 'text',
+                    value: 'series2',
+                    placeholder: 'series2'
+                },
+                {
+                    name: 'body',
+                    type: 'text'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        console.log('Confirm Cancel');
+                    }
+                }, {
+                    text: 'Ok',
+                    handler: (data) => {
+                        const postData = { ...data, id: 1};
+                        this.http.post('https://floating-retreat-70851.herokuapp.com/messages', postData);
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
     }
 
     async showToast(message: string) {
