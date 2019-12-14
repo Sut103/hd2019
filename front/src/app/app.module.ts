@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuthGuard} from '@angular/fire/auth-guard';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {environment} from '../environments/environment';
 
@@ -25,6 +26,7 @@ import {environment} from '../environments/environment';
   providers: [
     StatusBar,
     SplashScreen,
+    AngularFireAuthGuard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
