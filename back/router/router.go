@@ -34,7 +34,7 @@ func GetRoute() (*gin.Engine, error) {
 	r.Use(cors.New(corsConfig))
 
 	//Route
-	r.GET("/serch", ct.GetSerch)
+	r.GET("/serch", ct.GetSearch)
 	r.GET("/series", ct.GetSeries)
 	r.GET("/messages", ct.GetMessages)
 	r.GET("/messages/:id", ct.GetMessage)
