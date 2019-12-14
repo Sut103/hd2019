@@ -2,10 +2,12 @@ package controller
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"cloud.google.com/go/firestore"
 	"firebase.google.com/go/auth"
+	"github.com/gin-gonic/gin"
 )
 
 type Controller struct {
@@ -52,4 +54,17 @@ type Series struct {
 
 func GetController() *Controller {
 	return &Controller{}
+}
+
+func requestVerify(c *gin.Context, ct *Controller) string {
+	// クライアントから送られてきた JWT 取得
+	authHeader := c.Request.Header.Get("authorization")
+	idToken := strings.Replace(authHeader, "", "", 1)
+
+	// JWT の検証
+	token, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), idToken)
+	if err != nil {
+		panic(err)
+	}
+	return token.UID
 }
