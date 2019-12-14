@@ -90,7 +90,10 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 	req := RequestPostMessage{}
 	c.ShouldBindJSON(&req)
 
-	userUUID := validateRequest(c, ct)
+	userUUID, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+	}
 
 	//series_uuid入手
 	seriesID := ""
@@ -124,7 +127,7 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 	}
 
 	//メッセージ追加
-	_, _, err := client.Collection("message").Add(ctx, message)
+	_, _, err = client.Collection("message").Add(ctx, message)
 	if err != nil {
 		panic(err)
 	}
