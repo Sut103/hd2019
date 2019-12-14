@@ -5,14 +5,21 @@ import (
 	"time"
 
 	"cloud.google.com/go/firestore"
+	"firebase.google.com/go/auth"
 )
 
 type Controller struct {
 	Firestore Firestore
+	FireAuth  FireAuth
 }
 
 type Firestore struct {
 	Client *firestore.Client
+	Ctx    context.Context
+}
+
+type FireAuth struct {
+	Client *auth.Client
 	Ctx    context.Context
 }
 

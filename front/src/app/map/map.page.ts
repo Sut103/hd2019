@@ -70,8 +70,7 @@ export class MapPage implements OnInit {
   }
 
   onAddClick() {
-    // console.log(this.location);
+    console.log(this.location);
   }
 
 }
-declare var google: any;
