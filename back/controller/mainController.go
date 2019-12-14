@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"hd2019/back/config"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -12,6 +13,7 @@ import (
 type Controller struct {
 	Firestore Firestore
 	FireAuth  FireAuth
+	Config    config.Config
 }
 
 type Firestore struct {
