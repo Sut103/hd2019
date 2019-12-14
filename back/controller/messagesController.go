@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"context"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
+	"googlemaps.github.io/maps"
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
@@ -126,9 +128,14 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 		seriesID = ref.ID
 	}
 
+	addr, err := getAddressHere(req.Latlng.Lat, req.Latlng.Lng, ct.Config.GCPAPIKEY)
+	if err != nil {
+		c.String(http.StatusInternalServerError, "internal server error : geocode", nil)
+	}
+
 	//追加メッセージ作成
 	message := Message{
-		Address: "", //TODO
+		Address: addr, //TODO
 		Body:    req.Body,
 		Date:    time.Now(),
 		Latlng: Latlng{
@@ -153,4 +160,23 @@ func (ct *Controller) PutMessages(c *gin.Context) {
 }
 func (ct *Controller) DeleteMessages(c *gin.Context) {
 
+}
+
+func getAddressHere(lat float64, lng float64, key string) (string, error) {
+	c, err := maps.NewClient(maps.WithAPIKey(key))
+	if err != nil {
+		return "", nil
+	}
+	r := &maps.GeocodingRequest{
+		LatLng: &maps.LatLng{
+			Lat: lat,
+			Lng: lng,
+		},
+		Language: "ja",
+	}
+	route, err := c.Geocode(context.Background(), r)
+	if err != nil {
+		return "", nil
+	}
+	return route[0].FormattedAddress, nil
 }

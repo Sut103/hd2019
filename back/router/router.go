@@ -2,6 +2,7 @@ package router
 
 import (
 	"context"
+	"hd2019/back/config"
 	"hd2019/back/controller"
 
 	"cloud.google.com/go/firestore"
@@ -22,7 +23,10 @@ func GetRoute() (*gin.Engine, error) {
 	}
 	//defer client.Close()
 
-	//firebase Auth
+	config, err := config.GetConfig()
+	if err != nil {
+		return nil, err
+	}
 
 	//Controller
 	ct := controller.GetController()
@@ -35,6 +39,8 @@ func GetRoute() (*gin.Engine, error) {
 		Client: authClient,
 		Ctx:    ctx,
 	}
+
+	ct.Config = config
 
 	//CORS
 	corsConfig := cors.DefaultConfig()
