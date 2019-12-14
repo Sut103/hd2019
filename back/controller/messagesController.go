@@ -9,6 +9,12 @@ import (
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
+	_, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
+	}
+
 	id := c.Param("id")
 
 	client := ct.Firestore.Client
@@ -35,6 +41,11 @@ type ResponseGetMessages struct {
 }
 
 func (ct *Controller) GetMessages(c *gin.Context) {
+	_, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
+	}
 
 	//リクエストバインド
 	req := RequestGetMessages{}
@@ -42,6 +53,7 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 	c.ShouldBindQuery(&req)
 	if req.ID == "" {
 		c.String(http.StatusBadRequest, "bad request", nil)
+		return
 	}
 
 	//検索
@@ -90,6 +102,12 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 	req := RequestPostMessage{}
 	c.ShouldBindJSON(&req)
 
+	userUUID, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
+	}
+
 	//series_uuid入手
 	seriesID := ""
 	if req.SeriesID != "" {
@@ -97,7 +115,7 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 	} else {
 		series := Series{
 			Name:     req.SeriesName,
-			UserUUID: "", //TODO
+			UserUUID: userUUID,
 		}
 		//series作成
 		ref := client.Collection("series").NewDoc()
@@ -116,13 +134,13 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 		Latlng:      req.Latlng,
 		Series_UUID: seriesID, //TODO
 		Title:       req.Title,
-		User_UUID:   "", //TODO
+		User_UUID:   userUUID,
 		Views:       0,
 		Weather:     "unknown",
 	}
 
 	//メッセージ追加
-	_, _, err := client.Collection("message").Add(ctx, message)
+	_, _, err = client.Collection("message").Add(ctx, message)
 	if err != nil {
 		panic(err)
 	}

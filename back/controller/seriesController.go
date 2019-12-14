@@ -15,7 +15,11 @@ type ResponseGetSeries struct {
 
 func (ct *Controller) GetSeries(c *gin.Context) {
 	ress := []ResponseGetSeries{}
-	userUUID := validateRequest(c, ct)
+	userUUID, err := validateRequest(c, ct)
+	if err != nil {
+		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
+	}
 
 	client := ct.Firestore.Client
 	ctx := ct.Firestore.Ctx

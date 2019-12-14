@@ -2,7 +2,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -56,12 +55,11 @@ func GetController() *Controller {
 	return &Controller{}
 }
 
-func validateRequest(c *gin.Context, ct *Controller) string {
+func validateRequest(c *gin.Context, ct *Controller) (string, error) {
 	auth := c.Request.Header.Get("authorization")
 	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	if err != nil {
-		fmt.Print(err)
+		return "", err
 	}
-
-	return t.UID
+	return t.UID, nil
 }
