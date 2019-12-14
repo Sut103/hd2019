@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -45,7 +44,6 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(doc.Data())
 
 		message := Message{}
 		err = doc.DataTo(&message)
