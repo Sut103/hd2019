@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AngularFireAuth} from "@angular/fire/auth";
+
 
 @Component({
   selector: 'app-map',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapPage implements OnInit {
 
-  constructor() { }
+  constructor(
+      public auth: AngularFireAuth
+  ) {
+    console.log(this.auth.auth.currentUser.getIdToken());
+  }
 
   ngOnInit() {
   }
