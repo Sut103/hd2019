@@ -25,6 +25,10 @@ const routes: Routes = [
     path: 'my-series-page',
     loadChildren: () => import('./my-series-page/my-series-page.module').then( m => m.MySeriesPagePageModule)
   },
+  {
+    path: 'messages',
+    loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
 ];
 @NgModule({
   imports: [
