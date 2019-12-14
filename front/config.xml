@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://localhost:8106" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -102,4 +102,5 @@
     <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="(api key)" />
     <preference name="GOOGLE_MAPS_IOS_API_KEY" value="(api key)" />
     <allow-navigation href="http://10.11.10.141:8100" sessionid="48efc651" />
+    <allow-navigation href="http://localhost:8106" sessionid="f64f03bc" />
 </widget>
