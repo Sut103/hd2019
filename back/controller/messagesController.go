@@ -8,7 +8,20 @@ import (
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
+	id := c.Param("id")
 
+	client := ct.Firestore.Client
+	ctx := ct.Firestore.Ctx
+
+	dsnap, err := client.Collection("message").Doc(id).Get(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	message := Message{}
+	dsnap.DataTo(&message)
+
+	c.JSON(http.StatusOK, message)
 }
 
 type RequestGetMessages struct {
