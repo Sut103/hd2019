@@ -1,60 +1,68 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapOptions,
+  CameraPosition,
+  MarkerOptions,
+  Marker,
+  Environment
+} from '@ionic-native/google-maps/ngx';
 
-declare var google: any;
 @Component({
   selector: 'app-map',
   templateUrl: './map.page.html',
   styleUrls: ['./map.page.scss'],
 })
 export class MapPage implements OnInit {
-  @ViewChild('Map', {static: false}) mapElement: ElementRef;
-  map: any;
-  mapOptions: any;
-  location =  { lat: null, lng: null };
-  markerOptions: any;
-  marker: any;
-  apiKey: any = 'AIzaSyDq1bO1yts9SWbPwk3iP5DLeQ1y02sg3HA';
+  map: GoogleMap;
 
-  constructor(
-      public geolocation: Geolocation
-  ) {
-    const script = document.createElement('script');
-    script.id = 'googleMap';
-    if (this.apiKey) {
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey;
-    } else {
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=';
-    }
-    document.head.appendChild(script);
-
-    this.geolocation.getCurrentPosition().then((position) =>  {
-      this.location.lat = 35.7005247;
-      this.location.lng = 139.7725077;
-      // this.location.lat = position.coords.latitude;
-      // this.location.lng = position.coords.longitude;
-    });
-    this.mapOptions = {
-      center: this.location,
-      zoom: 17,
-      mapTypeControl: false,
-      zoomControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-    };
-    this.markerOptions = {
-      position: this.location,
-      map: null,
-    }
-    setTimeout(() => {
-      this.map = new google.maps.Map(this.mapElement.nativeElement, this.mapOptions);
-      this.markerOptions.map = this.map;
-      this.marker = new google.maps.Marker(this.markerOptions);
-    }, 1000);
-  }
+  constructor() { }
 
   ngOnInit() {
+    this.loadMap();
+  }
+
+  loadMap() {
+    Environment.setEnv({
+      API_KEY_FOR_BROWSER_RELEASE: 'AIzaSyDq1bO1yts9SWbPwk3iP5DLeQ1y02sg3HA',
+      API_KEY_FOR_BROWSER_DEBUG: 'AIzaSyDq1bO1yts9SWbPwk3iP5DLeQ1y02sg3HA'
+    });
+
+    // this.location.lat = 35.7005247;
+    // this.location.lng = 139.7725077;
+
+    const mapOptions: GoogleMapOptions = {
+      camera: {
+        target: {
+          lat: 35.7005247,
+          lng: 139.7725077
+        },
+        zoom: 17,
+      }
+    };
+    this.map = GoogleMaps.create('map_canvas', mapOptions);
+
+    const marker: Marker = this.map.addMarkerSync({
+      position: {
+        lat: 35.7005247,
+        lng: 139.7725077
+      },
+      icon: {
+        url: '/assets/icon/tokyo32.png',
+        size: {
+          width: 32,
+          height: 32
+        },
+      },
+      rotation: 32,
+      animation: 'DROP',
+    });
+    // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+    //   alert('clicked');
+    // });
   }
 
   onRefrechClick() {
@@ -62,7 +70,8 @@ export class MapPage implements OnInit {
   }
 
   onAddClick() {
-    console.log(this.location);
+    // console.log(this.location);
   }
 
 }
+declare var google: any;
