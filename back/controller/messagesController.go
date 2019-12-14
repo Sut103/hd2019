@@ -2,13 +2,27 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/iterator"
 )
 
 func (ct *Controller) GetMessage(c *gin.Context) {
+	id := c.Param("id")
 
+	client := ct.Firestore.Client
+	ctx := ct.Firestore.Ctx
+
+	dsnap, err := client.Collection("message").Doc(id).Get(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	message := Message{}
+	dsnap.DataTo(&message)
+
+	c.JSON(http.StatusOK, message)
 }
 
 type RequestGetMessages struct {
@@ -61,8 +75,57 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 	//レスポンス
 	c.JSON(http.StatusOK, ress)
 }
-func (ct *Controller) PostMessages(c *gin.Context) {
 
+type RequestPostMessage struct {
+	Title      string `json:"title"`
+	Body       string `json:"body"`
+	SeriesID   string `json:"series_id"`
+	SeriesName string `json:"series_name"`
+	Latlng     Latlng `json:"latlng"`
+}
+
+func (ct *Controller) PostMessages(c *gin.Context) {
+	client := ct.Firestore.Client
+	ctx := ct.Firestore.Ctx
+	req := RequestPostMessage{}
+	c.ShouldBindJSON(&req)
+
+	//series_uuid入手
+	seriesID := ""
+	if req.SeriesID != "" {
+		seriesID = req.SeriesID
+	} else {
+		series := Series{
+			Name:     req.SeriesName,
+			UserUUID: "", //TODO
+		}
+		//series作成
+		ref := client.Collection("series").NewDoc()
+		_, err := ref.Set(ctx, series)
+		if err != nil {
+			panic(err)
+		}
+		seriesID = ref.ID
+	}
+
+	//追加メッセージ作成
+	message := Message{
+		Address:     "", //TODO
+		Body:        req.Body,
+		Date:        time.Now(),
+		Latlng:      req.Latlng,
+		Series_UUID: seriesID, //TODO
+		Title:       req.Title,
+		User_UUID:   "", //TODO
+		Views:       0,
+		Weather:     "unknown",
+	}
+
+	//メッセージ追加
+	_, _, err := client.Collection("message").Add(ctx, message)
+	if err != nil {
+		panic(err)
+	}
 }
 func (ct *Controller) PutMessages(c *gin.Context) {
 
