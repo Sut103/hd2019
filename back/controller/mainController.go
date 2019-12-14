@@ -2,10 +2,12 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"cloud.google.com/go/firestore"
 	"firebase.google.com/go/auth"
+	"github.com/gin-gonic/gin"
 )
 
 type Controller struct {
@@ -52,4 +54,14 @@ type Series struct {
 
 func GetController() *Controller {
 	return &Controller{}
+}
+
+func validateRequest(c *gin.Context, ct *Controller) string {
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
+	if err != nil {
+		fmt.Print(err)
+	}
+
+	return t.UID
 }

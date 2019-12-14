@@ -15,12 +15,12 @@ type ResponseGetSeries struct {
 
 func (ct *Controller) GetSeries(c *gin.Context) {
 	ress := []ResponseGetSeries{}
-	user_uuid := c.Request.Header.Get("authorization")
+	userUUID := validateRequest(c, ct)
 
 	client := ct.Firestore.Client
 	ctx := ct.Firestore.Ctx
 
-	iter := client.Collection("series").Where("user_uuid", "==", user_uuid).Documents(ctx)
+	iter := client.Collection("series").Where("user_uuid", "==", userUUID).Documents(ctx)
 	for {
 		res := ResponseGetSeries{}
 		doc, err := iter.Next()
