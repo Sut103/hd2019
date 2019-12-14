@@ -46,7 +46,7 @@ func GetRoute() (*gin.Engine, error) {
 	r.GET("/series", ct.GetSeries)
 	r.GET("/messages", ct.GetMessages)
 	r.GET("/messages/:id", ct.GetMessage)
-	r.POST("/messages", ct.GetMessages)
+	r.POST("/messages", ct.PostMessages)
 	r.PUT("/messages/:id", ct.PutMessages)
 	r.DELETE("/series/:id", ct.DeleteteSeries)
 	r.DELETE("/messages/:id", ct.DeleteMessages)
