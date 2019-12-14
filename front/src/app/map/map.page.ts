@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ToastController, Platform, LoadingController} from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 import {
   GoogleMaps,
@@ -22,13 +23,31 @@ export class MapPage implements OnInit {
   map: GoogleMap;
   loading: any;
 
+  messages: {
+    id: string,
+    latlng: {
+      lat: number,
+      lng: number
+    }
+  }[] = [];
+
   constructor(
       public loadingCtrl: LoadingController,
       public toastCtrl: ToastController,
+      public http: HttpClient,
   ) { }
 
   ngOnInit() {
     this.loadMap();
+  }
+
+  ionViewDidEnter() {
+    this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
+        .subscribe(data => {
+          // @ts-ignore
+          this.messages = data;
+          console.log(this.messages);
+        });
   }
 
   loadMap() {
