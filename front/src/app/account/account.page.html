@@ -8,5 +8,13 @@
   <ion-button (click)="signOut()">
     <ion-label>ログアウト</ion-label>
   </ion-button>
+
+  <ion-button (click)="signOut()">
+    <ion-label>My message</ion-label>
+  </ion-button>
   Account Page
+  <ion-list *ngFor="let item of messages">
+<!--    <ion-item></ion-item>-->
+    <ion-label>{{item.id}}</ion-label>
+  </ion-list>
 </ion-content>
