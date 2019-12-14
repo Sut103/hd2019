@@ -2,9 +2,9 @@ package controller
 
 import (
 	"context"
+	"time"
 
 	"cloud.google.com/go/firestore"
-	"google.golang.org/genproto/googleapis/type/date"
 )
 
 type Controller struct {
@@ -24,7 +24,7 @@ type User struct {
 type Message struct {
 	Address     string    `firestore:"address,omitempty"`
 	Body        string    `firestore:"body,omitempty"`
-	Date        date.Date `firestore:"date,omitempty"`
+	Date        time.Time `firestore:"date,omitempty"`
 	Latlng      Latlng    `firestore:"latlng,omitempty"`
 	Series_UUID string    `firestore:"series_uuid,omitempty"`
 	Title       string    `firestore:"title,omitempty"`
