@@ -1,3 +1,4 @@
 {
-    "gcp_apikey":""
+    "gcp_apikey":"",
+    "weather_apikey":""
 }
