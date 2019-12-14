@@ -6,6 +6,7 @@ import (
 
 	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/option"
@@ -15,17 +16,24 @@ func GetRoute() (*gin.Engine, error) {
 	r := gin.Default()
 
 	//firestore
-	client, storeCtx, err := initFirestore()
+	dbClient, authClient, ctx, err := initFirebase()
 	if err != nil {
 		return nil, err
 	}
 	//defer client.Close()
 
+	//firebase Auth
+
 	//Controller
 	ct := controller.GetController()
 	ct.Firestore = controller.Firestore{
-		Client: client,
-		Ctx:    storeCtx,
+		Client: dbClient,
+		Ctx:    ctx,
+	}
+
+	ct.FireAuth = controller.FireAuth{
+		Client: authClient,
+		Ctx:    ctx,
 	}
 
 	//CORS
@@ -34,7 +42,7 @@ func GetRoute() (*gin.Engine, error) {
 	r.Use(cors.New(corsConfig))
 
 	//Route
-	r.GET("/serch", ct.GetSerch)
+	r.GET("/serch", ct.GetSearch)
 	r.GET("/series", ct.GetSeries)
 	r.GET("/messages", ct.GetMessages)
 	r.GET("/messages/:id", ct.GetMessage)
@@ -46,18 +54,23 @@ func GetRoute() (*gin.Engine, error) {
 	return r, nil
 }
 
-func initFirestore() (*firestore.Client, context.Context, error) {
+func initFirebase() (*firestore.Client, *auth.Client, context.Context, error) {
 	ctx := context.Background()
 	sa := option.WithCredentialsFile("sa.json")
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	client, err := app.Firestore(ctx)
+	dbClient, err := app.Firestore(ctx)
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
-	return client, ctx, nil
+	authClient, err := app.Auth(ctx)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+
+	return dbClient, authClient, ctx, nil
 }
