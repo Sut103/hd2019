@@ -22,18 +22,22 @@ type ResponseGetMessages struct {
 }
 
 func (ct *Controller) GetMessages(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }
 func (ct *Controller) PostMessages(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }
 func (ct *Controller) PutMessages(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }
 func (ct *Controller) DeleteMessages(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }

@@ -8,6 +8,7 @@ import (
 )
 
 func (ct *Controller) GetSearch(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }

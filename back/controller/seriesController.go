@@ -8,11 +8,13 @@ import (
 )
 
 func (ct *Controller) GetSeries(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }
 
 func (ct *Controller) DeleteteSeries(c *gin.Context) {
-	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), "a")
+	auth := c.Request.Header.Get("authorization")
+	t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
 	fmt.Println(t, err)
 }
