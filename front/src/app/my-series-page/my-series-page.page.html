@@ -8,18 +8,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngFor="let item of messages">
+  <ion-list *ngFor="let item of series">
+    <ion-item (click)="moveMessage()" [button]="true">
       <!--    <ion-item></ion-item>-->
-    <ion-label>{{item.id}}</ion-label>
+    <ion-label>{{item.name}}</ion-label>
+    </ion-item>
   </ion-list>
-  <ion-item (click)="moveMessage()" [button]="true">
-    <ion-label>test1</ion-label>
-  </ion-item>
-  <ion-list>
-    test2
-  </ion-list>
-  <ion-list>
-    test3
-  </ion-list>
+
   <h1>my-syries-page</h1>
 </ion-content>
