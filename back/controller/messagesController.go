@@ -128,10 +128,13 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 
 	//追加メッセージ作成
 	message := Message{
-		Address:     "", //TODO
-		Body:        req.Body,
-		Date:        time.Now(),
-		Latlng:      req.Latlng,
+		Address: "", //TODO
+		Body:    req.Body,
+		Date:    time.Now(),
+		Latlng: Latlng{
+			Lat: req.Latlng.Lat,
+			Lng: req.Latlng.Lng,
+		},
 		Series_UUID: seriesID, //TODO
 		Title:       req.Title,
 		User_UUID:   userUUID,
