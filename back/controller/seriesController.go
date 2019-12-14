@@ -15,7 +15,7 @@ type ResponseGetSeries struct {
 
 func (ct *Controller) GetSeries(c *gin.Context) {
 	ress := []ResponseGetSeries{}
-	user_uuid := "voiro1"
+	user_uuid := c.Request.Header.Get("authorization")
 
 	client := ct.Firestore.Client
 	ctx := ct.Firestore.Ctx
