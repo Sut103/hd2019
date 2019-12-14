@@ -7,6 +7,7 @@ import (
 
 type Config struct {
 	GCPAPIKEY string `json:"gcp_apikey"`
+	WEATHERAPIKEY string `json:"weather_apikey"`
 }
 
 func GetConfig() (Config, error) {
