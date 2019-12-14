@@ -12,6 +12,7 @@ func (ct *Controller) GetMessage(c *gin.Context) {
 	_, err := validateRequest(c, ct)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
 	}
 
 	id := c.Param("id")
@@ -43,6 +44,7 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 	_, err := validateRequest(c, ct)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
 	}
 
 	//リクエストバインド
@@ -51,6 +53,7 @@ func (ct *Controller) GetMessages(c *gin.Context) {
 	c.ShouldBindQuery(&req)
 	if req.ID == "" {
 		c.String(http.StatusBadRequest, "bad request", nil)
+		return
 	}
 
 	//検索
@@ -102,6 +105,7 @@ func (ct *Controller) PostMessages(c *gin.Context) {
 	userUUID, err := validateRequest(c, ct)
 	if err != nil {
 		c.String(http.StatusUnauthorized, "Unauthorized", nil)
+		return
 	}
 
 	//series_uuid入手
