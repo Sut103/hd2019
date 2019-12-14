@@ -30,18 +30,18 @@ export class MapPage implements OnInit {
         public geolocation: Geolocation
     ) { }
 
-    ngOnInit() {
-        this.loadMap();
+    async ngOnInit() {
+        await this.loadMap();
+        await this.loadMessage();
     }
 
-    ionViewDidEnter() {
-        this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
-            .subscribe(data => {
-                // @ts-ignore
-                this.messages = data;
-            });
-        // this.map.
-    }
+    // ionViewDidEnter() {
+    //     this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
+    //         .subscribe(data => {
+    //             // @ts-ignore
+    //             this.messages = data;
+    //         });
+    // }
 
     loadMap() {
         Environment.setEnv({
@@ -77,7 +77,7 @@ export class MapPage implements OnInit {
                 lng: 139.7725077
             },
             icon: {
-                url: '/assets/icon/tokyo32.png',
+                url: '/assets/icon/red_tokyo32.png',
                 size: {
                     width: 32,
                     height: 32
@@ -91,19 +91,31 @@ export class MapPage implements OnInit {
         // });
     }
 
-    loadMessage() {
+    async loadMessage() {
+        //　ToDo: 再取得時にマーカを全部一回削除
         const msgArray: BaseArrayClass<any> = new BaseArrayClass<any>();
-        this.messages.forEach(message => {
-            msgArray.push({
-                position: { lat: message.latlng.lat, lng: message.latlng.lng},
-                dbId: message.id,
-                animation: 'DROP',
+        await this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
+            .subscribe((data: any[]) => {
+                // @ts-ignore
+                this.messages = data;
+                data.forEach(message => {
+                    msgArray.push({
+                        position: { lat: message.latlng.lat, lng: message.latlng.lng},
+                        dbId: message.id,
+                        animation: 'DROP',
+                        icon: {
+                            url: '/assets/icon/tokyo32.png',
+                            size: {
+                                width: 32,
+                                height: 32
+                            },
+                        }
+                    });
+                });
+                msgArray.map((options) => {
+                    this.map.addMarker(options);
+                });
             });
-        });
-
-        msgArray.map((options) => {
-            this.map.addMarker(options);
-        });
     }
 
     async onRefrechClick() {
