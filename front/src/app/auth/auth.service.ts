@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {NavController} from '@ionic/angular';
-import {error} from "util";
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +15,16 @@ export class AuthService {
   authSignUp(login: { email: string, password: string }) {
     return this.afAuth.auth
         .createUserWithEmailAndPassword(login.email, login.password)
-        .then(() => this.navController.navigateForward('/'))
+        .then((res) => {
+            console.log(res);
+            this.navController.navigateForward('/');
+        })
         .catch(error => {
           throw error;
         });
   }
-authSignIn(login: {email: string, password: string}){
-  return this.afAuth.auth
+  authSignIn(login: {email: string, password: string}){
+    return this.afAuth.auth
       .signInWithEmailAndPassword(login.email, login.password)
       .then(() => this.navController.navigateForward('/'))
       .catch(error => {
@@ -31,7 +33,7 @@ authSignIn(login: {email: string, password: string}){
   }
   authSignOut(){
     return this.afAuth.auth.signOut()
-        .then(() => this.navController.navigateRoot('auth/signin'))
+        .then(() => this.navController.navigateRoot('/auth/signin'))
         .catch(error =>{
           throw error;
         });
