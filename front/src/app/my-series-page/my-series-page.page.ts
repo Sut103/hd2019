@@ -27,7 +27,7 @@ export class MySeriesPagePage implements OnInit {
           console.log(this.messages);
         });
   }
-  backAccount() {
-    this.navCtrl.navigateForward('/account');
-  }
+    moveMessage() {
+        this.navCtrl.navigateForward('/messages');
+    }
 }
