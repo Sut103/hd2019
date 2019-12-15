@@ -1,9 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ToastController, Platform, LoadingController, AlertController} from '@ionic/angular';
+import {ToastController, Platform, LoadingController, AlertController, ModalController} from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
-import {GoogleMaps, GoogleMap, GoogleMapOptions, Marker, Environment, MyLocation, BaseArrayClass} from '@ionic-native/google-maps/ngx';
+import {GoogleMaps, GoogleMapsEvent, GoogleMap, GoogleMapOptions, Marker, Environment, MyLocation, BaseArrayClass} from '@ionic-native/google-maps/ngx';
+import {ModalPage} from './modal/modal.page';
 
 @Component({
     selector: 'app-map',
@@ -29,6 +30,7 @@ export class MapPage implements OnInit {
         public http: HttpClient,
         public geolocation: Geolocation,
         public alertController: AlertController,
+        public modalController: ModalController
     ) { }
 
     async ngOnInit() {
@@ -93,9 +95,9 @@ export class MapPage implements OnInit {
     }
 
     async loadMessage() {
-        //　ToDo: 再取得時にマーカを全部一回削除
+        // 　ToDo: 再取得時にマーカを全部一回削除
         const msgArray: BaseArrayClass<any> = new BaseArrayClass<any>();
-        await this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
+        await this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=dFiPhsi9AvjQYfxG8ddF')
             .subscribe((data: any[]) => {
                 // @ts-ignore
                 this.messages = data;
@@ -114,9 +116,26 @@ export class MapPage implements OnInit {
                     });
                 });
                 msgArray.map((options) => {
-                    this.map.addMarker(options);
+                    this.map.addMarker(options).then((marker: Marker) => {
+                        // console.log(marker.getId());
+
+                        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((event) => {
+                            console.log(event[1]);
+                            const mFound = Object.getOwnPropertySymbols(event[1]._objectInstance)
+                                .find(e => e.toString() === 'Symbol(vars)');
+                            const dbId = event[1]._objectInstance[mFound].dbId;
+                            this.http.get('https://floating-retreat-70851.herokuapp.com/messages/' + dbId)
+                            // tslint:disable-next-line:no-shadowed-variable
+                                .subscribe((data) => {
+                                    this.presentModal(data);
+                                });
+                        });
+                    });
                 });
             });
+        // marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+        //   alert('clicked');
+        // });
     }
 
     async onRefrechClick() {
@@ -215,4 +234,13 @@ export class MapPage implements OnInit {
         toast.present();
     }
 
+    async presentModal(data) {
+        const modal = await this.modalController.create({
+            component: ModalPage,
+            componentProps: {
+                data
+            }
+        });
+        return await modal.present();
+    }
 }

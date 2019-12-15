@@ -17,6 +17,10 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data : {authGuardPipe: redirectLoggedIn },
   },
+  {
+    path: 'modal',
+    loadChildren: () => import('./map/modal/modal.module').then(m => m.ModalPageModule)
+  },
 ];
 @NgModule({
   imports: [
