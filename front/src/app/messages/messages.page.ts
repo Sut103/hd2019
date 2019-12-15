@@ -14,7 +14,7 @@ export class MessagesPage implements OnInit {
   constructor(
       public navCtrl: NavController,
       public http: HttpClient,
-      private activatedRoute: ActivatedRoute
+      private activatedRoute: ActivatedRoute,
   ) {
   }
 
@@ -28,9 +28,5 @@ export class MessagesPage implements OnInit {
             // @ts-ignore
            this.series = data;
           });
-    }
-
-    openMessageDetailPage(id) {
-      this.navCtrl.navigateForward(`/message-detail/${id}`);
     }
   }

@@ -102,5 +102,5 @@
     <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="(api key)" />
     <preference name="GOOGLE_MAPS_IOS_API_KEY" value="(api key)" />
     <allow-navigation href="http://10.11.10.141:8100" sessionid="48efc651" />
-    <allow-navigation href="http://localhost:8106" sessionid="f64f03bc" />
+    <allow-navigation href="http://localhost:8106" sessionid="1a6b0689" />
 </widget>

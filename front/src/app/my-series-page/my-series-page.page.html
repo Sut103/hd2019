@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-button routerLink="/message-detail" routerDirection="forward">
+  page2
+  </ion-button>
   <ion-list *ngFor="let item of series">
     <ion-item (click)="moveMessage()" [button]="true">
       <!--    <ion-item></ion-item>-->

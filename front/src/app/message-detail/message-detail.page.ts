@@ -22,10 +22,10 @@ export class MessageDetailPage implements OnInit {
   message: Object;
   constructor(
       private router: Router,
-      private route: ActivatedRoute,
       public navCtrl: NavController,
       public navParams: NavParams,
-      public http: HttpClient
+      public http: HttpClient,
+      private route: ActivatedRoute
   ) {
     this.item = this.navParams.data.item;
   }
@@ -38,9 +38,10 @@ export class MessageDetailPage implements OnInit {
     //       this.message = data;
     //       console.log(this.message);
     //     });
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.id = params.get('id');
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    // this.route.paramMap.subscribe((params: ParamMap) => {
+    //   this.id = params.get('id');
+    // });
 
   }
 

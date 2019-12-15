@@ -17,11 +17,9 @@ export class MySeriesPagePage implements OnInit {
     constructor(
       public http: HttpClient,
       public navCtrl: NavController,
-      private router: Router,
   ) {}
 
   ngOnInit() {
-      this.router.navigateByUrl('/contact/' + this.id);
   }
   ionViewDidEnter() {
       this.http.get('https://floating-retreat-70851.herokuapp.com/series?user_id=User1')
@@ -33,6 +31,7 @@ export class MySeriesPagePage implements OnInit {
         });
   }
     moveMessage() {
-        this.navCtrl.navigateForward(`/messages`);
+        this.navCtrl.navigateForward(`/message`);
+        // this.navCtrl.navigateForward(`/messages`);
     }
 }

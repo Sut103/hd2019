@@ -30,7 +30,7 @@ const routes: Routes = [
     loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
   },
   {
-    path: 'message-detail/:id',
+    path: '/message-detail/',
     loadChildren: () => import('./message-detail/message-detail.module').then( m => m.MessageDetailPageModule)
   },
 ];
