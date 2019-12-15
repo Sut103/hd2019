@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {NavController} from '@ionic/angular';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-series-page',
@@ -13,32 +13,26 @@ export class MySeriesPagePage implements OnInit {
     id: string,
       name: string
   }[] = [];
-  constructor(
+    id: string ;
+    constructor(
       public http: HttpClient,
       public navCtrl: NavController,
-  ) {
-      this.series = [
-          { id: '0', name: 'series1' },
-          { id: '1', name: 'series2' },
-          { id: '2', name: '日記' },
-          { id: '3', name: 'ツイート' },
-      ];
-  }
+      private router: Router,
+  ) {}
 
   ngOnInit() {
+      this.router.navigateByUrl('/contact/' + this.id);
   }
-  // ionViewDidEnter() {
-  //   // this.http.get('https://floating-retreat-70851.herokuapp.com/messages?series_id=series4')
-  //     this.http.get('https://floating-retreat-70851.herokuapp.com/series')
-  //
-  //         .subscribe(data => {
-  //         // @ts-ignore
-  //         this.series = data;
-  //         console.log(this.series);
-  //       });
-  // }
-    moveMessage() {
-        this.navCtrl.navigateForward('/messages', {
+  ionViewDidEnter() {
+      this.http.get('https://floating-retreat-70851.herokuapp.com/series?user_id=User1')
+
+          .subscribe(data => {
+          // @ts-ignore
+          this.series = data;
+          console.log(this.series);
         });
+  }
+    moveMessage() {
+        this.navCtrl.navigateForward(`/messages`);
     }
 }
