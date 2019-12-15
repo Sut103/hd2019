@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+// import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { RouterModule } from '@angular/router';
+
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps/ngx';
 import {AngularFireModule} from '@angular/fire';
@@ -27,6 +30,7 @@ import { AppComponent } from './app.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     HttpClientModule,
+    RouterModule,
   ],
   providers: [
     StatusBar,

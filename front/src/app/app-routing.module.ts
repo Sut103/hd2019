@@ -18,6 +18,22 @@ const routes: Routes = [
     data : {authGuardPipe: redirectLoggedIn },
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./shared/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'my-series-page',
+    loadChildren: () => import('./my-series-page/my-series-page.module').then( m => m.MySeriesPagePageModule)
+  },
+  {
+    path: 'messages',
+    loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: '/message-detail/',
+    loadChildren: () => import('./message-detail/message-detail.module').then( m => m.MessageDetailPageModule)
+  },
+  {
     path: 'modal',
     loadChildren: () => import('./map/modal/modal.module').then(m => m.ModalPageModule)
   },

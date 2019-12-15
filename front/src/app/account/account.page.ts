@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import { AngularFireAuth } from '@angular/fire/auth';
+import {NavController} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-account',
@@ -8,16 +9,17 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-
   constructor(
       public auth: AuthService,
-      public afAuth: AngularFireAuth
-  ) { }
+      public navCtrl: NavController,
+) { }
   signOut() {
     this.auth.authSignOut();
   }
+    nextMySeries() {
+        this.navCtrl.navigateForward('/my-series-page');
+    }
   ngOnInit() {
-    console.log(this.afAuth.auth.currentUser.getIdToken());
   }
 
 }

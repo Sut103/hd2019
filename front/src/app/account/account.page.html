@@ -1,12 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>account</ion-title>
+    <ion-title class="ion-text-center">account</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="signOut()">
-    <ion-label>ログアウト</ion-label>
-  </ion-button>
-  Account Page
+    <ion-list>
+        <ion-button (click)="nextMySeries()">
+            <ion-label>My message</ion-label>
+        </ion-button>
+
+        <ion-button (click)="signOut()">
+            <ion-label>sign out</ion-label>
+        </ion-button>
+    </ion-list>
+  <ion-list *ngFor="let item of messages">
+<!--    <ion-item></ion-item>-->
+    <ion-label>{{item.id}}</ion-label>
+  </ion-list>
 </ion-content>
