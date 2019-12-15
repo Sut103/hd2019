@@ -33,6 +33,10 @@ const routes: Routes = [
     path: '/message-detail/',
     loadChildren: () => import('./message-detail/message-detail.module').then( m => m.MessageDetailPageModule)
   },
+  {
+    path: 'modal',
+    loadChildren: () => import('./map/modal/modal.module').then(m => m.ModalPageModule)
+  },
 ];
 @NgModule({
   imports: [

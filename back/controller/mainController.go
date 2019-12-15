@@ -2,15 +2,18 @@ package controller
 
 import (
 	"context"
+	"hd2019/back/config"
 	"time"
 
 	"cloud.google.com/go/firestore"
 	"firebase.google.com/go/auth"
+	"github.com/gin-gonic/gin"
 )
 
 type Controller struct {
 	Firestore Firestore
 	FireAuth  FireAuth
+	Config    config.Config
 }
 
 type Firestore struct {
@@ -41,8 +44,8 @@ type Message struct {
 }
 
 type Latlng struct {
-	Lat float64 `json:"lat" firestore:"lat,omitempty"`
-	Lng float64 `json:"lng" firestore:"lng,omitempty`
+	Lat float64 `json:"lat" firestore:"lat,omitempty" form:"lat"`
+	Lng float64 `json:"lng" firestore:"lng,omitempty" form:"lng"`
 }
 
 type Series struct {
@@ -52,4 +55,14 @@ type Series struct {
 
 func GetController() *Controller {
 	return &Controller{}
+}
+
+func validateRequest(c *gin.Context, ct *Controller) (string, error) {
+	// auth := c.Request.Header.Get("authorization")
+	// t, err := ct.FireAuth.Client.VerifyIDToken(context.Background(), auth)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// return t.UID, nil
+	return "", nil
 }
