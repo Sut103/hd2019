@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+    <ion-buttons start>
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Title
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        ここは...
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      詳細
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        <h2>時刻</h2>
+        <p>{{ '2019-12-14T22:04:30.256047Z' | date: "MM/dd H:mm"}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      紹介文
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        UDXだ！
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<!--Address: "日本、〒101-0021 東京都千代田区外神田４丁目１４−２", Body: "これでどうだ?", Date: "2019-12-14T22:04:30.256047Z", Latlng: {…}, Series_UUID: "dFiPhsi9AvjQYfxG8ddF", …}Address: "日本、〒101-0021 東京都千代田区外神田４丁目１４−２"Body: "これでどうだ?"Date: "2019-12-14T22:04:30.256047Z"Latlng: {lat: 35.701407, lng: 139.77277}Series_UUID: "dFiPhsi9AvjQYfxG8ddF"Title: "どうだ?"User_UUID: "User1"Views: 0Weather: "unknown"__proto__: Object-->
